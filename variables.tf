@@ -23,3 +23,9 @@ variable "domain_name" {
   description = "The domain name for Route53 hosted zone"
   type        = string
 }
+
+variable "aws_profile" {
+  description = "AWS profile to use"
+  type        = string
+  sensitive   = true
+}
