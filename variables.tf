@@ -18,3 +18,8 @@ variable "default_tags" {
   default = "sel-practice"
   type    = string
 }
+
+variable "domain_name" {
+  description = "The domain name for Route53 hosted zone"
+  type        = string
+}
