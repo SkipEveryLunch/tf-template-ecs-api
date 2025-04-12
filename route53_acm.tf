@@ -5,7 +5,7 @@
 # ACM証明書 (Webアプリケーション用)
 resource "aws_acm_certificate" "main" {
   count             = var.create_certificate ? 1 : 0
-  domain_name       = local.domain_name
+  domain_name       = local.subdomain
   validation_method = "DNS"
 
   tags = {
@@ -20,7 +20,7 @@ resource "aws_acm_certificate" "main" {
 # APIサブドメイン用のRoute 53 レコード (ALBへのルーティング)
 resource "aws_route53_record" "main" {
   zone_id = data.aws_route53_zone.this.zone_id
-  name    = "api.app.${local.domain_name}"
+  name    = local.subdomain
   type    = "A"
 
   alias {
