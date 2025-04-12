@@ -2,7 +2,7 @@ resource "aws_route53_zone" "main" {
   name = var.domain_name
 
   tags = {
-    Name = "${var.service_prefix}-hosted-zone"
+    Name        = "${var.service_prefix}-hosted-zone"
     Environment = var.default_tags
   }
 }
