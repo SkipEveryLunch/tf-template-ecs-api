@@ -1,9 +1,11 @@
 resource "aws_s3_bucket" "logs" {
-  bucket        = "${var.service_prefix}-ecs-logs"
+  # バケット名は全世界で一意である必要があるので、ユニークな値をsuffixとする（自動生成推奨）
+  # 小文字のalphanumericな文字とハイフンのみ許容される
+  bucket        = "${var.service_prefix}-ecs-logs-${var.s3_bucket_suffix}"
   force_destroy = true
 
   tags = {
-    Name = "${var.service_prefix}-ecs-logs"
+    Name = "${var.service_prefix}-ecs-logs-${var.s3_bucket_suffix}"
   }
 }
 

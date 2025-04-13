@@ -34,3 +34,8 @@ variable "subdomain_prefix" {
   description = "The prefix for the subdomain (e.g. 'api' for api.example.com)"
   type        = string
 }
+
+variable "s3_bucket_suffix" {
+  description = "Suffix for S3 bucket names"
+  type        = string
+}
