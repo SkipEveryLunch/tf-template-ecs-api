@@ -161,3 +161,94 @@ resource "aws_iam_role_policy" "ecs_task_exec_policy" {
     ]
   })
 }
+
+# Firehose用のIAMロール
+resource "aws_iam_role" "firehose" {
+  name = "${var.service_prefix}-firehose-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "firehose.amazonaws.com"
+        }
+      }
+    ]
+  })
+
+  tags = {
+    Name = "${var.service_prefix}-firehose-role"
+  }
+}
+
+# Firehose用のIAMポリシー
+resource "aws_iam_role_policy" "firehose" {
+  name = "${var.service_prefix}-firehose-policy"
+  role = aws_iam_role.firehose.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:AbortMultipartUpload",
+          "s3:GetBucketLocation",
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:ListBucketMultipartUploads",
+          "s3:PutObject"
+        ]
+        Resource = [
+          aws_s3_bucket.logs.arn,
+          "${aws_s3_bucket.logs.arn}/*"
+        ]
+      }
+    ]
+  })
+}
+
+# CloudWatch Logs用のIAMロール
+resource "aws_iam_role" "cloudwatch" {
+  name = "${var.service_prefix}-cloudwatch-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Principal = {
+          Service = "logs.amazonaws.com"
+        }
+      }
+    ]
+  })
+
+  tags = {
+    Name = "${var.service_prefix}-cloudwatch-role"
+  }
+}
+
+# CloudWatch Logs用のIAMポリシー
+resource "aws_iam_role_policy" "cloudwatch" {
+  name = "${var.service_prefix}-cloudwatch-policy"
+  role = aws_iam_role.cloudwatch.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "firehose:PutRecord",
+          "firehose:PutRecordBatch"
+        ]
+        Resource = [aws_kinesis_firehose_delivery_stream.logs.arn]
+      }
+    ]
+  })
+}
