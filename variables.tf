@@ -39,3 +39,25 @@ variable "s3_bucket_suffix" {
   description = "Suffix for S3 bucket names"
   type        = string
 }
+
+# AWS Amplify関連の変数
+variable "github_repository" {
+  description = "GitHubリポジトリのURL（例：https://github.com/username/repo.git）"
+  type        = string
+}
+
+variable "github_token" {
+  description = "GitHubとの連携に使用するアクセストークン"
+  type        = string
+  sensitive   = true
+}
+
+variable "api_base_url" {
+  description = "バックエンドAPIのベースURL"
+  type        = string
+}
+
+variable "node_version" {
+  description = "Node.jsのバージョン"
+  type        = string
+}
