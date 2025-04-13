@@ -35,7 +35,7 @@ locals {
   domain_name = trimsuffix(data.aws_route53_zone.this.name, ".")
 
   # 完全なサブドメイン名
-  subdomain = "${var.subdomain_prefix}.${local.domain_name}"
+  subdomain = "${var.api_subdomain_prefix}.${local.domain_name}"
 
   # データベース認証情報の取得
   db_credentials = jsondecode(data.aws_secretsmanager_secret_version.db_credentials.secret_string)

@@ -30,7 +30,7 @@ variable "aws_profile" {
   sensitive   = true
 }
 
-variable "subdomain_prefix" {
+variable "api_subdomain_prefix" {
   description = "The prefix for the subdomain (e.g. 'api' for api.example.com)"
   type        = string
 }
