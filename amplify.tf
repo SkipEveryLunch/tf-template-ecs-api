@@ -13,26 +13,6 @@ resource "aws_amplify_app" "this" {
   # Basic認証を設定しない
   enable_basic_auth = false
 
-  # ビルド設定
-  build_spec = <<-EOT
-    version: 1
-    frontend:
-      phases:
-        preBuild:
-          commands:
-            - npm ci
-        build:
-          commands:
-            - npm run build
-      artifacts:
-        baseDirectory: .next
-        files:
-          - '**/*'
-      cache:
-        paths:
-          - node_modules/**/*
-  EOT
-
   # 環境変数
   environment_variables = {
     NEXT_PUBLIC_API_BASE_URL = var.api_base_url
